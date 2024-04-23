@@ -112,38 +112,44 @@ class _PaymentState extends State<Payment> {
 
   void _performTransfer() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        AlertDialog(
-          title: Text("conformation de l'opération"),
-          content: Text("es-tu sûr de vouloir transférer?"),
-          actions: [
-            ElevatedButton(
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirmation de l'opération"),
+            content: Text("Es-tu sûr de vouloir transférer?"),
+            actions: [
+              ElevatedButton(
                 onPressed: () {
                   Navigator.popUntil(
                       context, ModalRoute.withName('/transactions'));
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('transféré avec succès !'),
+                      content: Text('Transféré avec succès !'),
                       backgroundColor: Colors.green,
                       duration: Duration(seconds: 2),
                     ),
                   );
                 },
-                child: Text('Oui')),
-            ElevatedButton(
+                child: Text('Oui'),
+              ),
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('No')),
-          ],
-        );
-      });
+                child: Text('Non'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
       // If the form is not valid, show a different snackbar message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-              'Veuillez remplir toutes les informations avant de Virement.'),
+            'Veuillez remplir toutes les informations avant de procéder au virement.',
+          ),
           backgroundColor: Colors.red, // Red to indicate an error or reminder
           duration: Duration(seconds: 3),
         ),
