@@ -11,7 +11,7 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   Future<void> showAnimationAndPush() async {
     await Future.delayed(
-        const Duration(seconds: 3)); // Attente courte pour montrer l'animation
+        const Duration(seconds: 5)); // Attente courte pour montrer l'animation
 
     Navigator.pushReplacementNamed(context, '/');
   }

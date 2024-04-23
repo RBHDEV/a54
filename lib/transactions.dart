@@ -71,7 +71,7 @@ class _TransactionPageState extends State<TransactionPage> {
                 Navigator.pushNamed(context, '/payment');
               },
               icon: Icon(Icons.payment),
-              label: Text('Payment'),
+              label: Text('Virement'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue.shade900,
                 foregroundColor: Colors.white,

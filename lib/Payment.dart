@@ -10,6 +10,7 @@ class _PaymentState extends State<Payment> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ripController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,96 +28,116 @@ class _PaymentState extends State<Payment> {
         toolbarHeight: 75,
         titleTextStyle: TextStyle(fontSize: 25),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
-              Center(
-                child: Image.asset(
-                  "assets/pay.png",
-                  scale: 4,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 40,
                 ),
-              ),
-              SizedBox(
-                height: 80,
-              ),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: 'Nom du Recevoir ',
-                  border: OutlineInputBorder(),
+                Center(
+                  child: Image.asset(
+                    "assets/pay.png",
+                    scale: 4,
+                  ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer le Nom du Recevoir';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: _ripController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: ' RIP (Numéro de banque)',
-                  border: OutlineInputBorder(),
+                SizedBox(
+                  height: 80,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer le RIP (Numéro de banque)';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: _ripController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Somme Montant (DA)',
-                  border: OutlineInputBorder(),
+                TextFormField(
+                  controller: _nameController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'numéro de téléphone ',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer le numéro de téléphone';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer le Somme Montant (DA)';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _performTransfer,
-                child: Text('Virement'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _ripController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: ' RIP (Numéro de banque)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer le RIP (Numéro de banque)';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: ' Montant (DA)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer le Montant (DA)';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: _performTransfer,
+                  child: Text('confirmation'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _performTransfer() {
+  void _performTransfer() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Virement avec succès!'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
-        ),
-      );
-
-      Navigator.pop(context);
+      setState(() {
+        AlertDialog(
+          title: Text("conformation de l'opération"),
+          content: Text("es-tu sûr de vouloir transférer?"),
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.popUntil(
+                      context, ModalRoute.withName('/transactions'));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('transféré avec succès !'),
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: Text('Oui')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('No')),
+          ],
+        );
+      });
     } else {
       // If the form is not valid, show a different snackbar message
       ScaffoldMessenger.of(context).showSnackBar(

@@ -97,7 +97,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildTextField(TextEditingController controller, String label) {
     return TextFormField(
       controller: controller,
-      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: label,
         filled: true,
