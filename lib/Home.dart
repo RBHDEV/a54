@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30))),
           toolbarHeight: 75,
-          titleTextStyle: TextStyle(fontSize: 25),
+          titleTextStyle: TextStyle(fontSize: 25, color: daColors.dawhite),
         ),
         body: Column(
           children: [

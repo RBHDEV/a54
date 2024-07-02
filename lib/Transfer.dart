@@ -26,7 +26,7 @@ class _TransferPageState extends State<TransferPage> {
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30))),
         toolbarHeight: 75,
-        titleTextStyle: TextStyle(fontSize: 25),
+        titleTextStyle: TextStyle(fontSize: 25, color: daColors.dawhite),
       ),
       body: SingleChildScrollView(
         child: Padding(

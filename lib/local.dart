@@ -25,10 +25,15 @@ class _localState extends State<local> {
         toolbarHeight: 75,
         titleTextStyle: TextStyle(fontSize: 25),
       ),
-      body: Center(
-          child: Image.asset(
-        "assets/localisation.png",
-      )),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Image.asset(
+          "assets/localisation.png",
+          fit: BoxFit.fitWidth,
+        ),
+      ),
     );
   }
 }
